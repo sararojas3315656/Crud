@@ -356,6 +356,9 @@ async function handleMessagesContainerClick(e) { //Detecta clicks del contenedor
 // 7) INICIALIZACIÓN
 // ===========================================
 
+//AL estar lista la página, los events (formulario, campos, tarjetas) llaman al load para
+// cargar la lista inicial desde el server
+
 document.addEventListener('DOMContentLoaded', function () {
   console.log('✅ DOM completamente cargado');
   console.log('🧾 CRUD de tareas con JSON Server iniciado');

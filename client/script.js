@@ -210,9 +210,9 @@ async function deleteTodo(id) {
   await loadTodos();
 }
 
-// ============================================
+// ===========================================
 // 5) DOM: JSON -> HTML
-// ============================================
+// ===========================================
 
 function renderTodos(todos) {
   messagesContainer.innerHTML = '';
@@ -263,9 +263,9 @@ function renderTodos(todos) {
   messagesContainer.appendChild(fragment);
 }
 
-// ============================================
+// ===========================================
 // 6) EVENTOS
-// ============================================
+// ===========================================
 
 async function handleFormSubmit(event) {
   event.preventDefault();
@@ -349,9 +349,9 @@ async function handleMessagesContainerClick(e) {
   }
 }
 
-// ============================================
+// ===========================================
 // 7) RESPUESTAS REQUERIDAS (consola) + ESQUEMA CICLO CRUD
-// ============================================
+// ===========================================
 
 function printEnunciadoAnswers() {
   console.log('\n===============================');
@@ -411,9 +411,9 @@ function printEnunciadoAnswers() {
   console.log('\n===============================');
 }
 
-// ============================================
+// ===========================================
 // 8) INICIALIZACIÓN
-// ============================================
+// ===========================================
 
 document.addEventListener('DOMContentLoaded', function () {
   console.log('✅ DOM completamente cargado');
@@ -434,9 +434,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-// ============================================
+// ===========================================
 // COMPRENDER ANTES DE PROGRAMAR
-// ============================================
+// ===========================================
 
 /**
 ¿Qué método HTTP usarían para:

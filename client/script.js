@@ -158,7 +158,9 @@ function setMode(isEditing) { //Cambia entre nueva tarea y editar tarea
 // 4) FETCH CRUD (JSON SERVER)
 // ============================================
 
-async function apiFetch(url, options) {
+//REFRESCAR PÁGINA
+
+async function apiFetch(url, options) { //LLamada a HTTP (error 404, error 500)
   const res = await fetch(url, options);
 
   if (!res.ok) {
@@ -169,7 +171,7 @@ async function apiFetch(url, options) {
   return res;
 }
 
-async function loadTodos() {
+async function loadTodos() { //GET... atrae las tareas del server y se ejecuta 
   // READ - Listar tareas
   const res = await apiFetch(API_BASE_URL, { method: 'GET' });
 
@@ -180,7 +182,7 @@ async function loadTodos() {
   renderTodos(data);
 }
 
-async function createTodo({ title, userName }) {
+async function createTodo({ title, userName }) { //POST... Crea tarea con los datos del formulario al refrescar lista
   // CREATE - Crear tarea
   await apiFetch(API_BASE_URL, {
     method: 'POST',
@@ -192,7 +194,7 @@ async function createTodo({ title, userName }) {
   await loadTodos();
 }
 
-async function updateTodo(id, { title, userName }) {
+async function updateTodo(id, { title, userName }) { //PATCH... actualiza los campos editados de una tarea existente
   // UPDATE - Actualizar tarea (PATCH)
   await apiFetch(`${API_BASE_URL}/${id}`, {
     method: 'PATCH',
@@ -203,7 +205,7 @@ async function updateTodo(id, { title, userName }) {
   await loadTodos();
 }
 
-async function deleteTodo(id) {
+async function deleteTodo(id) { //DELETE... Elimina tarea
   // DELETE - Eliminar tarea
   await apiFetch(`${API_BASE_URL}/${id}`, { method: 'DELETE' });
 
@@ -213,6 +215,11 @@ async function deleteTodo(id) {
 // ===========================================
 // 5) DOM: JSON -> HTML
 // ===========================================
+
+//Recibe tareas del servidor y contruye tarjetas HTML.
+//Cada tarea crea una tarjeta con el avatar (iniciales), name, descripción y botones (editar, eliminar).
+
+//data.id = guardar ID para identificarla 
 
 function renderTodos(todos) {
   messagesContainer.innerHTML = '';
@@ -267,7 +274,7 @@ function renderTodos(todos) {
 // 6) EVENTOS
 // ===========================================
 
-async function handleFormSubmit(event) {
+async function handleFormSubmit(event) { //Valida formulario si se da en guardar tarae
   event.preventDefault();
 
   if (!validateForm()) return;
@@ -275,10 +282,6 @@ async function handleFormSubmit(event) {
   const title = userMessageInput.value.trim();
   const userName = userNameInput.value.trim();
 
-  // Respuesta a pregunta:
-  // ¿Qué ocurre primero: DOM o solicitud al servidor?
-  // Respuesta: se envía la solicitud al servidor primero.
-  // El DOM se actualiza al volver a listar (loadTodos -> renderTodos).
   try {
     if (editingId !== null) {
       await updateTodo(editingId, { title, userName });
@@ -297,7 +300,7 @@ async function handleFormSubmit(event) {
   }
 }
 
-function handleInputChange(e) {
+function handleInputChange(e) { //Borra mensaje de error en el campo al tener contenido.
   if (e.target === userNameInput && isValidInput(userNameInput.value)) {
     clearError(userNameError);
     userNameInput.classList.remove('error');
@@ -309,7 +312,7 @@ function handleInputChange(e) {
   }
 }
 
-async function handleMessagesContainerClick(e) {
+async function handleMessagesContainerClick(e) { //Detecta clicks del contenedor de tarjetas (eliminar o editar)
   const btn = e.target.closest('button');
   if (!btn) return;
 

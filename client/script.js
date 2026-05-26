@@ -353,69 +353,7 @@ async function handleMessagesContainerClick(e) { //Detecta clicks del contenedor
 }
 
 // ===========================================
-// 7) RESPUESTAS REQUERIDAS (consola) + ESQUEMA CICLO CRUD
-// ===========================================
-
-function printEnunciadoAnswers() {
-  console.log('\n===============================');
-  console.log('GFPI-F-135 V04 - RESPUESTAS (CRUD con fetch + db.json)');
-  console.log('===============================');
-  console.log('\nParte 1: Comprendiendo antes de programar');
-
-  console.log('\n1) Métodos HTTP que usarían:');
-  console.log('- Crear una tarea: POST');
-  console.log('- Listar tareas: GET');
-  console.log('- Actualizar una tarea: PATCH (o PUT)');
-  console.log('- Eliminar una tarea: DELETE');
-
-  console.log('\n2) ¿Qué información enviar al servidor para actualizar o eliminar?');
-  console.log('- Actualizar: el id de la tarea + los datos a cambiar (title y userName).');
-  console.log('- Eliminar: el id de la tarea.');
-
-  console.log('\n3) ¿En qué momento debe actualizarse el DOM?');
-  console.log('- Cuando llega la respuesta del servidor (por ejemplo, luego de POST/PATCH/DELETE se hace GET y se renderiza).');
-  console.log('- En este código: loadTodos() llama a renderTodos(data) y ahí se transforma JSON -> HTML.');
-
-
-  console.log('\nParte 2: Implementación guiada');
-
-  console.log('\nREAD (Listar tareas):');
-  console.log('- Al cargar la página: loadTodos() hace GET /todos.');
-  console.log('- En consola se imprime la respuesta antes de renderizar.');
-  console.log('Respuesta: ¿En qué momento se transforman JSON en elementos HTML?');
-  console.log('- Cuando renderTodos(todos) recibe el JSON y crea elementos HTML con innerHTML.');
-
-  console.log('\nCREATE (Crear tarea):');
-  console.log('- submit del formulario -> POST /todos -> luego loadTodos() (GET) para refrescar DOM.');
-  console.log('Respuesta: ¿Qué ocurre primero: se actualiza el DOM o se envía la solicitud al servidor?');
-  console.log('- Primero se envía la solicitud POST al servidor. Después se recarga con GET y ahí se actualiza el DOM.');
-
-  console.log('\nDELETE (Eliminar tarea):');
-  console.log('- Botón "Eliminar" por tarea -> DELETE /todos/:id -> luego loadTodos().');
-  console.log('Respuesta: ¿Por qué es importante el id en esta operación?');
-  console.log('- Porque el servidor necesita saber qué recurso exacto eliminar (ruta /:id).');
-
-  console.log('\nUPDATE (Actualizar tarea):');
-  console.log('- Botón "Editar" -> carga datos en el formulario -> submit -> PATCH /todos/:id -> loadTodos().');
-  console.log('Respuesta: ¿Diferencia entre modificar el DOM y modificar en el servidor?');
-  console.log('- DOM: solo cambia la vista en el navegador.');
-  console.log('- Servidor: persiste el cambio (se ve al volver a consultar o para otros usuarios).');
-
-  // Esquema del ciclo completo
-  console.log('\nIdentificación del ciclo completo (esquema general por operación):');
-  console.log('Acción usuario -> Evento JS -> Solicitud HTTP -> Respuesta servidor -> Actualización DOM');
-
-  console.log('\nCiclos específicos:');
-  console.log('- CREATE: submit -> POST /todos -> respuesta -> GET /todos -> renderTodos (JSON -> HTML)');
-  console.log('- READ: cargar página -> GET /todos -> respuesta JSON -> renderTodos');
-  console.log('- UPDATE: click Editar -> PATCH /todos/:id -> respuesta -> GET /todos -> renderTodos');
-  console.log('- DELETE: click Eliminar -> DELETE /todos/:id -> respuesta -> GET /todos -> renderTodos');
-
-  console.log('\n===============================');
-}
-
-// ===========================================
-// 8) INICIALIZACIÓN
+// 7) INICIALIZACIÓN
 // ===========================================
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -438,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ===========================================
-// COMPRENDER ANTES DE PROGRAMAR
+// COMPRENDER ANTES DE PROGRAMAR PARTE 1
 // ===========================================
 
 /**
@@ -468,3 +406,26 @@ operación erra en algo, se va a mostrar información incorrecta.
 Se deberia enviar la petición al servidor, verificar que todo esté bien y ahí si actualizar todo para que la interfaz siempre refleje lo que está 
 guardado debidamente
  */
+
+// ===========================================
+// COMPRENDER ANTES DE PROGRAMAR PARTE 2
+// ===========================================
+
+/* 
+¿En qué momento se transforman JSON en elementos HTML?
+
+- Cuando renderTodos(todos) recibe el JSON y crea elementos HTML con innerHTML
+
+¿Qué ocurre primero: se actualiza el DOM o se envía la solicitud al servidor?
+
+- Primero se envía la solicitud POST al servidor. Después se recarga con GET y ahí se actualiza el DOM.
+
+¿Por qué es importante el id en esta operación?'
+
+- Porque el servidor necesita saber qué recurso exacto eliminar (ruta /:id)
+
+¿Diferencia entre modificar el DOM y modificar en el servidor?
+
+- DOM: solo cambia la vista en el navegador
+- Servidor: persiste el cambio (se ve al volver a consultar o para otros usuarios).
+*/

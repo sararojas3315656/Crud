@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> -formulario crud-</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado principal -->
+        <header class="header">
+            <h1 class="header__title">Gestor de Tareas (CRUD)</h1>
+            <p class="header__subtitle">CRUD con Vanilla JS + fetch() usando JSON Server</p>
+        </header>
+
+        <!-- Formulario de entrada -->
+        <section class="form-section">
+            <div class="card">
+                <h2 class="card__title" id="formTitle">Nueva Tarea</h2>
+                
+                <form id="messageForm" class="form" novalidate>
+                    <div class="form__group">
+                        <label for="userName" class="form__label">
+                            Nombre de usuario
+                        </label>
+                        <input 
+                            type="text" 
+                            id="userName" 
+                            class="form__input" 
+                            placeholder="Ingresa tu nombre"
+                            aria-required="true"
+                        >
+                        <span class="form__error" id="userNameError"></span>
+                    </div>
+
+                    <div class="form__group">
+                        <label for="userMessage" class="form__label">
+                            Nombre de la tarea
+                        </label>
+                        <textarea 
+                            id="userMessage" 
+                            class="form__input form__textarea" 
+                            placeholder="Escribe el nombre de la tarea aquí..."
+                            rows="4"
+                            aria-required="true"
+                        ></textarea>
+                        <span class="form__error" id="userMessageError"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn--primary" id="submitBtn">
+                        <span class="btn__text" id="submitBtnText">Guardar tarea</span>
+                        <span class="btn__icon">➤</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Área de mensajes -->
+        <section class="messages-section">
+            <div class="messages-header">
+                <h2 class="messages-header__title">Tareas</h2>
+                <span class="messages-header__count" id="messageCount">0 mensajes</span>
+            </div>
+            
+            <div id="messagesContainer" class="messages-container">
+                <!-- Los mensajes se agregarán aquí dinámicamente -->
+                <div class="messages-empty" id="emptyState">
+                    <svg class="messages-empty__icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <p class="messages-empty__text">Aún no hay tareas</p>
+                    <p class="messages-empty__subtext">Completa el formulario para agregar tu primera tarea</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer informativo -->
+        <footer class="footer">
+            <p class="footer__text">Ejercicio de manipulación del DOM | SENA - Desarrollo Web</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

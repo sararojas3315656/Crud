@@ -216,7 +216,7 @@ async function createTodo({ title, userName, description }) { //POST... Crea tar
   });
 
   await loadTodos();
-  showToast('✅ Tarea creada exitosamente.', 'success'); //Confirmación 
+  showToast(' Tarea creada exitosamente.', 'success'); //Confirmación 
 }
 
 async function updateTodo(id, { title, userName, description }) { //PATCH... actualiza los campos editados
@@ -394,8 +394,7 @@ async function handleMessagesContainerClick(e) { //Detecta clicks del contenedor
     return;
   }
 
-  if (btn.classList.contains('btn--edit')) {
-    // UPDATE: cargar datos en el formulario y permitir editar
+  if (btn.classList.contains('btn--edit')) { // UPDATE: cargar datos en el formulario y permitir editar
     const todo = lastRenderedTodos.find(t => String(t.id) === String(id));
     if (!todo) return;
 
@@ -434,6 +433,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   loadTodos().catch(err => {
     console.error('❌ No se pudo cargar la lista. Asegúrate que JSON Server esté encendido.', err);
+    showToast('❌ No se pudo conectar con el servidor.', 'error'); //error al cargar
     showEmptyState();
     updateMessageCount(0);
   });

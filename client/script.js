@@ -216,6 +216,7 @@ async function createTodo({ title, userName, description }) { //POST... Crea tar
   });
 
   await loadTodos();
+  showToast('✅ Tarea creada exitosamente.', 'success'); //Confirmación 
 }
 
 async function updateTodo(id, { title, userName, description }) { //PATCH... actualiza los campos editados
@@ -226,12 +227,14 @@ async function updateTodo(id, { title, userName, description }) { //PATCH... act
   });
 
   await loadTodos();
+  showToast('Tarea actualizada correctamente.', 'success'); //Confirmación de actualización
 }
 
 async function deleteTodo(id) { //DELETE... Elimina tarea
   await apiFetch(`${API_BASE_URL}/${id}`, { method: 'DELETE' });
 
   await loadTodos();
+  showToast('Tarea eliminada.', 'success'); //confirmación de eliminación
 }
 
 // ===========================================
@@ -346,7 +349,7 @@ async function handleFormSubmit(event) { //Valida formulario si se da en guardar
     userNameInput.focus();
   } catch (err) {
     console.error(err);
-    showError(userMessageError, 'Ocurrió un error al guardar. Revisa la consola.');
+    showToast( 'Ocurrió un error al guardar. Revisa la consola.', 'Error'); //Error de red / Sistema
   }
 }
 
@@ -376,15 +379,17 @@ async function handleMessagesContainerClick(e) { //Detecta clicks del contenedor
 
   const id = idStr;
 
-  if (btn.classList.contains('btn--delete')) {
-    // Porque DELETE necesita identificar exactamente el recurso a borrar.
+  if (btn.classList.contains('btn--delete')) { // Porque DELETE necesita identificar exactamente el recurso a borrar.
+        const confirmar = window.confirm('¿Está seguro de eliminar esta tarea?');
+    if (!confirmar) return;  //Confirmación ANTES de eliminar
+
     try {
       await deleteTodo(id);
       editingId = null;
       setMode(false);
     } catch (err) {
       console.error(err);
-      showError(userMessageError, 'No se pudo eliminar. Revisa la consola.');
+      showToast('No se pudo eliminar. Revisa la consola.', 'error'); //Error al eliminar
     }
     return;
   }

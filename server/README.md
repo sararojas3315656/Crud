@@ -11,6 +11,6 @@ Arrancar JSON Server (puerto **3007**):
 npx serve -l 3008
 
 Ruta del recurso:
-- `http://192.168.128.26:3007/todos`
+- `http://192.168.128.13:3007/todos`
 
 //API BASE URL (cambiar x IP)

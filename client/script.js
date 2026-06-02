@@ -167,42 +167,6 @@ function setMode(isEditing) { //Cambia entre nueva tarea y editar tarea
   }
 }
 
-// =============================================
-// PARTE 3: CICLO COMPLETO DEL CRUD: Esquema
-// =============================================
-
-/*
-======================= CREATE (Crear tarea) =============================================================================|                                                                                                                       |
-| 1. Acción del usuario:       Llena el formulario y hace clic en "Guardar tarea"                                         |
-| 2. Evento capturado en JS:   messageForm.addEventListener('submit', handleFormSubmit)                                   |
-| 3. Solicitud HTTP enviada:   POST http://192.168.128.13:3007/todos                                                      |
-|                              Body: { title, userName, description }                                                     |
-| 4. Respuesta del servidor:   201 Created — devuelve el objeto creado con su nuevo id                                    |
-| 5. Actualización del DOM:    Se llama loadTodos() que hace GET y renderTodos() reconstruye las tarjetas                 |                                                                                                                        |
-|======================= READ (Listar tareas) ============================================================================|                                                                                                                       |
-| 1. Acción del usuario:       Abre la página (no requiere acción manual)                                                 |
-| 2. Evento capturado en JS:   DOMContentLoaded llama a loadTodos()                                                       |
-| 3. Solicitud HTTP enviada:   GET http://192.168.128.13:3007/todos                                                       |
-| 4. Respuesta del servidor:   200 OK — devuelve un arreglo JSON con todas las tareas                                     |
-| 5. Actualización del DOM:    renderTodos(data) convierte cada objeto JSON en una tarjeta HTML                           |
-|======================= UPDATE (Actualizar tarea) =======================================================================|
-| 1. Acción del usuario:       Hace clic en "Editar", modifica los campos y presiona "Actualizar tarea"                   |
-| 2. Evento capturado en JS:   btn--edit detectado en handleMessagesContainerClick,                                       |
-|                              luego submit en handleFormSubmit                                                           |
-| 3. Solicitud HTTP enviada:   PATCH http://192.168.128.13:3007/todos/:id (mi casita)                                     |
-|                              Body: { title, userName, description }                                                     |
-| 4. Respuesta del servidor:   200 OK — devuelve el objeto actualizado                                                    |
-| 5. Actualización del DOM:    Se llama loadTodos() y renderTodos() vuelve a construir las tarjetas                       |
-|======================= DELETE (Eliminar tarea) =========================================================================|
-| 1. Acción del usuario:       Hace clic en "Eliminar" en una tarjeta                                                     |
-| 2. Evento capturado en JS:   btn--delete detectado en handleMessagesContainerClick                                      |
-| 3. Solicitud HTTP enviada:   DELETE http://192.168.128.13:3007/todos/:id                                                |
-| 4. Respuesta del servidor:   200 OK — confirma que el recurso fue eliminado                                             |
-| 5. Actualización del DOM:    Se llama loadTodos() y la tarjeta eliminada desaparece                                     |
-==========================================================================================================================|
-*
-
-
 
 // ============================================
 // 4) FETCH CRUD (JSON SERVER)
@@ -429,6 +393,44 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+
+
+// =============================================
+//  8) CICLO COMPLETO DEL CRUD: Esquema
+// =============================================
+
+/*
+======================= CREATE (Crear tarea) =============================================================================|                                                                                                                       |
+| 1. Acción del usuario:       Llena el formulario y hace clic en "Guardar tarea"                                         |
+| 2. Evento capturado en JS:   messageForm.addEventListener('submit', handleFormSubmit)                                   |
+| 3. Solicitud HTTP enviada:   POST http://192.168.128.13:3007/todos                                                      |
+|                              Body: { title, userName, description }                                                     |
+| 4. Respuesta del servidor:   201 Created — devuelve el objeto creado con su nuevo id                                    |
+| 5. Actualización del DOM:    Se llama loadTodos() que hace GET y renderTodos() reconstruye las tarjetas                 |                                                                                                                        |
+|======================= READ (Listar tareas) ============================================================================|                                                                                                                       |
+| 1. Acción del usuario:       Abre la página (no requiere acción manual)                                                 |
+| 2. Evento capturado en JS:   DOMContentLoaded llama a loadTodos()                                                       |
+| 3. Solicitud HTTP enviada:   GET http://192.168.128.13:3007/todos                                                       |
+| 4. Respuesta del servidor:   200 OK — devuelve un arreglo JSON con todas las tareas                                     |
+| 5. Actualización del DOM:    renderTodos(data) convierte cada objeto JSON en una tarjeta HTML                           |
+|======================= UPDATE (Actualizar tarea) =======================================================================|
+| 1. Acción del usuario:       Hace clic en "Editar", modifica los campos y presiona "Actualizar tarea"                   |
+| 2. Evento capturado en JS:   btn--edit detectado en handleMessagesContainerClick,                                       |
+|                              luego submit en handleFormSubmit                                                           |
+| 3. Solicitud HTTP enviada:   PATCH http://192.168.128.13:3007/todos/:id (mi casita)                                     |
+|                              Body: { title, userName, description }                                                     |
+| 4. Respuesta del servidor:   200 OK — devuelve el objeto actualizado                                                    |
+| 5. Actualización del DOM:    Se llama loadTodos() y renderTodos() vuelve a construir las tarjetas                       |
+|======================= DELETE (Eliminar tarea) =========================================================================|
+| 1. Acción del usuario:       Hace clic en "Eliminar" en una tarjeta                                                     |
+| 2. Evento capturado en JS:   btn--delete detectado en handleMessagesContainerClick                                      |
+| 3. Solicitud HTTP enviada:   DELETE http://192.168.128.13:3007/todos/:id                                                |
+| 4. Respuesta del servidor:   200 OK — confirma que el recurso fue eliminado                                             |
+| 5. Actualización del DOM:    Se llama loadTodos() y la tarjeta eliminada desaparece                                     |
+==========================================================================================================================|
+*
+
+
 // ===========================================
 // COMPRENDER ANTES DE PROGRAMAR PARTE 1
 // ===========================================
@@ -477,4 +479,24 @@ que la interfaz siempre refleje lo que está guardado debidamente.
 ¿Diferencia entre modificar el DOM y modificar en el servidor?
 - DOM: solo cambia la vista en el navegador
 - Servidor: persiste el cambio (se ve al volver a consultar o para otros usuarios).
+
+¿Qué operación resultó más sencilla?
+- El DELETE fue la más sencilla, ya que solo se necesita el id de la tarea para construir
+la URL (todos/:id) y enviar la petición. No requiere capturar datos
+del formulario ni manejar validaciones adicionales.
+
+¿Cuál fue la más compleja y por qué?
+- El UPDATE fue la más compleja porque: 
+1. detectar el clic en "Editar" para cargar los datos existentes en el formulario y 
+luego manejar el submit para enviar el PATCH con los datos modificados. 
+2. el tener que gestionar el estado editingId para saber si se está creando o editando y
+asegurarse de limpiar ese estado correctamente al terminar.
+
+¿En qué parte del ciclo sintieron mayor dificultad: en la comunicación con la API
+o en la manipulación del DOM?
+- La mayor dificultad estuvo en la manipulación del DOM, específicamente en
+sincronizar el estado del formulario con las operaciones del servidor. Entender
+que el DOM no debe actualizarse directamente sino esperar la confirmación del
+servidor para luego reconstruirse desde los datos reales fue el concepto más
+importante y también el más difícil de interiorizar al principio.
 */

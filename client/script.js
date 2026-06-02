@@ -172,37 +172,35 @@ function setMode(isEditing) { //Cambia entre nueva tarea y editar tarea
 // =============================================
 
 /*
-===================== CREATE (Crear tarea) ==============================================================================                                                                                                                        |
-1. Acción del usuario:       Llena el formulario y hace clic en "Guardar tarea"                                         |
-2. Evento capturado en JS:   messageForm.addEventListener('submit', handleFormSubmit)                                   |
-3. Solicitud HTTP enviada:   POST http://192.168.128.13:3007/todos                                                      |
-                              Body: { title, userName, description }                                                    |
-4. Respuesta del servidor:   201 Created — devuelve el objeto creado con su nuevo id                                    |
-5. Actualización del DOM:    Se llama loadTodos() que hace GET y renderTodos() reconstruye las tarjetas                 |                                                                                                                        |
-===================== READ (Listar tareas) ==============================================================================                                                                                                                       |
-1. Acción del usuario:       Abre la página (no requiere acción manual)                                                 |
-2. Evento capturado en JS:   DOMContentLoaded llama a loadTodos()                                                       |
-3. Solicitud HTTP enviada:   GET http://192.168.128.13:3007/todos                                                       |
-4. Respuesta del servidor:   200 OK — devuelve un arreglo JSON con todas las tareas                                     |
-5. Actualización del DOM:    renderTodos(data) convierte cada objeto JSON en una tarjeta HTML                           |
-===================== UPDATE (Actualizar tarea) =========================================================================
-1. Acción del usuario:       Hace clic en "Editar", modifica los campos y presiona "Actualizar tarea"                   |
-2. Evento capturado en JS:   btn--edit detectado en handleMessagesContainerClick,                                       |
-                              luego submit en handleFormSubmit                                                          |
-3. Solicitud HTTP enviada:   PATCH http://192.168.128.13:3007/todos/:id (mi casita)                                     |
-                              Body: { title, userName, description }                                                    |
-4. Respuesta del servidor:   200 OK — devuelve el objeto actualizado                                                    |
-5. Actualización del DOM:    Se llama loadTodos() y renderTodos() vuelve a construir las tarjetas                       |
-===================== DELETE (Eliminar tarea) ===========================================================================
-
-1. Acción del usuario:       Hace clic en "Eliminar" en una tarjeta
-2. Evento capturado en JS:   btn--delete detectado en handleMessagesContainerClick
-3. Solicitud HTTP enviada:   DELETE http://192.168.128.13:3007/todos/:id
-4. Respuesta del servidor:   200 OK — confirma que el recurso fue eliminado
-5. Actualización del DOM:    Se llama loadTodos() y la tarjeta eliminada desaparece
-
-============================================================================================================================
-*/
+======================= CREATE (Crear tarea) =============================================================================|                                                                                                                       |
+| 1. Acción del usuario:       Llena el formulario y hace clic en "Guardar tarea"                                         |
+| 2. Evento capturado en JS:   messageForm.addEventListener('submit', handleFormSubmit)                                   |
+| 3. Solicitud HTTP enviada:   POST http://192.168.128.13:3007/todos                                                      |
+|                              Body: { title, userName, description }                                                     |
+| 4. Respuesta del servidor:   201 Created — devuelve el objeto creado con su nuevo id                                    |
+| 5. Actualización del DOM:    Se llama loadTodos() que hace GET y renderTodos() reconstruye las tarjetas                 |                                                                                                                        |
+|======================= READ (Listar tareas) ============================================================================|                                                                                                                       |
+| 1. Acción del usuario:       Abre la página (no requiere acción manual)                                                 |
+| 2. Evento capturado en JS:   DOMContentLoaded llama a loadTodos()                                                       |
+| 3. Solicitud HTTP enviada:   GET http://192.168.128.13:3007/todos                                                       |
+| 4. Respuesta del servidor:   200 OK — devuelve un arreglo JSON con todas las tareas                                     |
+| 5. Actualización del DOM:    renderTodos(data) convierte cada objeto JSON en una tarjeta HTML                           |
+|======================= UPDATE (Actualizar tarea) =======================================================================|
+| 1. Acción del usuario:       Hace clic en "Editar", modifica los campos y presiona "Actualizar tarea"                   |
+| 2. Evento capturado en JS:   btn--edit detectado en handleMessagesContainerClick,                                       |
+|                              luego submit en handleFormSubmit                                                           |
+| 3. Solicitud HTTP enviada:   PATCH http://192.168.128.13:3007/todos/:id (mi casita)                                     |
+|                              Body: { title, userName, description }                                                     |
+| 4. Respuesta del servidor:   200 OK — devuelve el objeto actualizado                                                    |
+| 5. Actualización del DOM:    Se llama loadTodos() y renderTodos() vuelve a construir las tarjetas                       |
+|======================= DELETE (Eliminar tarea) =========================================================================|
+| 1. Acción del usuario:       Hace clic en "Eliminar" en una tarjeta                                                     |
+| 2. Evento capturado en JS:   btn--delete detectado en handleMessagesContainerClick                                      |
+| 3. Solicitud HTTP enviada:   DELETE http://192.168.128.13:3007/todos/:id                                                |
+| 4. Respuesta del servidor:   200 OK — confirma que el recurso fue eliminado                                             |
+| 5. Actualización del DOM:    Se llama loadTodos() y la tarjeta eliminada desaparece                                     |
+==========================================================================================================================|
+*
 
 
 

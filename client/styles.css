@@ -1,5 +1,5 @@
 /* ============================================
-   SISTEMA DE DISEÑO - VARIABLES CSS
+    SISTEMA DE DISEÑO - VARIABLES CSS
    ============================================ */
 
 :root {
@@ -91,7 +91,7 @@
 }
 
 /* ============================================
-   RESET Y ESTILOS BASE
+    RESET Y ESTILOS BASE
    ============================================ */
 
 *, *::before, *::after {
@@ -118,7 +118,7 @@ body {
 }
 
 /* ============================================
-   LAYOUT PRINCIPAL
+    LAYOUT PRINCIPAL
    ============================================ */
 
 .container {
@@ -127,7 +127,7 @@ body {
 }
 
 /* ============================================
-   HEADER
+    HEADER
    ============================================ */
 
 .header {
@@ -154,7 +154,7 @@ body {
 }
 
 /* ============================================
-   CARD COMPONENT
+    CARD COMPONENT
    ============================================ */
 
 .card {
@@ -173,7 +173,7 @@ body {
 }
 
 /* ============================================
-   FORMULARIO
+    FORMULARIO
    ============================================ */
 
 .form-section {
@@ -237,7 +237,7 @@ body {
 }
 
 /* ============================================
-   BOTONES
+    BOTONES
    ============================================ */
 
 .btn {
@@ -285,7 +285,7 @@ body {
 }
 
 /* ============================================
-   SECCIÓN DE MENSAJES
+    SECCIÓN DE MENSAJES
    ============================================ */
 
 .messages-section {
@@ -430,7 +430,7 @@ body {
 }
 
 /* ============================================
-   ANIMACIONES
+    ANIMACIONES
    ============================================ */
 
 @keyframes slideIn {
@@ -445,7 +445,7 @@ body {
 }
 
 /* ============================================
-   RESPONSIVE DESIGN
+    RESPONSIVE DESIGN
    ============================================ */
 
 @media (max-width: 768px) {
@@ -490,7 +490,7 @@ body {
 }
 
 /* ============================================
-   UTILIDADES
+    UTILIDADES
    ============================================ */
 
 .hidden {
@@ -506,4 +506,30 @@ body {
         opacity: 0;
         transform: scale(0.95);
     }
+}
+
+
+/* TRANSFERENCIA  */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2);
+    z-index: 9999;
+    max-width: 320px;
+    animation: slideInToast 0.3s ease-out;
+}
+
+.toast--success { background-color: #10b981; }
+.toast--error   { background-color: #ef4444; }
+.toast--hidden  { opacity: 0; transition: opacity 0.3s ease; }
+
+@keyframes slideInToast {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }

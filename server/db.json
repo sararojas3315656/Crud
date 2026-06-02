@@ -1,11 +1,45 @@
 {
-  "todos": [
+  "todos": [],
+  "users": [
     {
-      "title": "Comida",
-      "userName": "Alenis",
-      "description": "Si",
-      "id": 1
+      "id": 1,
+      "name": "Juan Pérez"
+    },
+    {
+      "id": 2,
+      "name": "María López"
+    },
+    {
+      "id": 3,
+      "name": "Carlos García"
+    },
+    {
+      "id": 4,
+      "name": "Ana Martínez"
+    },
+    {
+      "id": 5,
+      "name": "Luis Rodríguez"
+    },
+    {
+      "id": 6,
+      "name": "Alenis Acevedo"
+    },
+        {
+      "id": 7,
+      "name": "Alfredo Lizcano"
+    },
+        {
+      "id": 8,
+      "name": "Jhan Ojeda"
+    },
+        {
+      "id": 9,
+      "name": "Sarah Carrillo"
+    },
+        {
+      "id": 10,
+      "name": "Santiago Camacho"
     }
-  ],
-  "$schema": "./node_modules/json-server/schema.json"
+  ]
 }

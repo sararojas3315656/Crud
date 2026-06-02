@@ -1,9 +1,0 @@
-{
-  "name": "crud-tasks-json-server",
-  "version": "1.0.0",
-  "private": true,
-  "description": "JSON Server para el CRUD de tareas",
-  "scripts": {
-    "start": "npx json-server --watch db.json -p 3005"
-  }
-}

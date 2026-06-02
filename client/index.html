@@ -7,36 +7,90 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+
+    <!-- ==========================================
+         PANTALLA DE VALIDACIÓN POR ID
+         Se muestra primero. Se oculta al validar.
+    =========================================== -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-card-wrapper">
+            <div class="card">
+                <h2 class="card__title">Bienvenido al Gestor de Tareas</h2>
+                <p class="login__subtitle">Ingresa tu ID de usuario para continuar</p>
+
+                <div class="form__group">
+                    <label for="loginId" class="form__label">
+                        ID de usuario <span class="login__hint">(del 1 al 10)</span>
+                    </label>
+                    <input
+                        type="number"
+                        id="loginId"
+                        class="form__input"
+                        placeholder="Ej: 3"
+                        min="1"
+                        max="10"
+                        autocomplete="off"
+                        aria-required="true"
+                    >
+                    <span class="form__error" id="loginIdError"></span>
+                </div>
+
+                <!-- Tarjeta de confirmación del usuario encontrado -->
+                <div id="loginUserInfo" class="login__user-info hidden">
+                    <div class="login__user-avatar" id="loginUserAvatar">??</div>
+                    <div>
+                        <p class="login__user-name" id="loginUserName">—</p>
+                        <p class="login__user-meta">✔ Usuario encontrado</p>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn--primary" id="loginBtn" style="width:100%; margin-top:0.5rem;">
+                    <span class="btn__text" id="loginBtnText">Verificar ID</span>
+                    <span class="btn__icon">➤</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- ========================================== -->
+
+
+    <!-- Aplicación principal — oculta hasta validar usuario -->
+    <div class="container" id="appContainer" style="display:none;">
+
         <header class="header">
             <h1 class="header__title">Gestor de Tareas (CRUD)</h1>
             <p class="header__subtitle">CRUD Vanilla + JSON Server</p>
+            <div class="header__user" id="headerUser">
+                <div class="header__user-badge">
+                    <span class="header__user-avatar" id="headerAvatar">??</span>
+                    <span id="headerUserName">—</span>
+                </div>
+                <button type="button" class="btn btn--logout" id="logoutBtn">Cerrar sesión</button>
+            </div>
         </header>
 
         <section class="form-section">
             <div class="card">
                 <h2 class="card__title" id="formTitle">Nueva Tarea</h2>
-                
                 <form id="messageForm" class="form" novalidate>
-                    <!-- Campo 1: Nombre de usuario (sin cambios) -->
+
                     <div class="form__group">
                         <label for="userName" class="form__label">Nombre de usuario</label>
-                        <input 
-                            type="text" 
-                            id="userName" 
-                            class="form__input" 
+                        <input
+                            type="text"
+                            id="userName"
+                            class="form__input"
                             placeholder="Ingresa tu nombre"
                             aria-required="true"
                         >
                         <span class="form__error" id="userNameError"></span>
                     </div>
 
-                    <!-- Campo 2: Nombre de tarea (sin cambios) -->
                     <div class="form__group">
                         <label for="userMessage" class="form__label">Nombre de la tarea</label>
-                        <textarea 
-                            id="userMessage" 
-                            class="form__input form__textarea" 
+                        <textarea
+                            id="userMessage"
+                            class="form__input form__textarea"
                             placeholder="Escribe el nombre de la tarea aquí..."
                             rows="2"
                             aria-required="true"
@@ -44,12 +98,11 @@
                         <span class="form__error" id="userMessageError"></span>
                     </div>
 
-                    <!-- Campo 3: Descripción (NUEVO) -->
                     <div class="form__group">
                         <label for="taskDescription" class="form__label">Descripción de la tarea</label>
-                        <textarea 
-                            id="taskDescription" 
-                            class="form__input form__textarea" 
+                        <textarea
+                            id="taskDescription"
+                            class="form__input form__textarea"
                             placeholder="Describe la tarea..."
                             rows="3"
                             aria-required="true"
@@ -70,7 +123,6 @@
                 <h2 class="messages-header__title">Tareas</h2>
                 <span class="messages-header__count" id="messageCount">0 tareas</span>
             </div>
-            
             <div id="messagesContainer" class="messages-container">
                 <div class="messages-empty" id="emptyState">
                     <svg class="messages-empty__icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">

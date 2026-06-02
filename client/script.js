@@ -14,7 +14,7 @@
  * ============================================
  */
 
-const API_BASE_URL = 'http://192.168.128.26:3007/todos';
+const API_BASE_URL = 'http://192.168.128.13:3007/todos';
 
 // ===========================================
 // 1) SELECCIÓN DE ELEMENTOS DOM.
@@ -27,11 +27,13 @@ const messageForm = document.getElementById('messageForm');
 
 const userNameInput = document.getElementById('userName');
 const userMessageInput = document.getElementById('userMessage');
+const taskDescriptionInput = document.getElementById('taskDescription');
 
 const submitBtnText = document.getElementById('submitBtnText');
 
 const userNameError = document.getElementById('userNameError');
 const userMessageError = document.getElementById('userMessageError');
+const taskDescriptionError = document.getElementById('taskDescriptionError');
 
 const messagesContainer = document.getElementById('messagesContainer');
 const emptyState = document.getElementById('emptyState');
@@ -67,6 +69,7 @@ function clearError(errorElement) { //Borrar errorMessage si se diligencia corre
 function validateForm() { //Bloquear envío si los campos están vacíos
   const userName = userNameInput.value;
   const title = userMessageInput.value;
+  const description = taskDescriptionInput.value;
 
   let isValid = true;
 
@@ -88,6 +91,15 @@ function validateForm() { //Bloquear envío si los campos están vacíos
     userMessageInput.classList.remove('error');
   }
 
+  if (!isValidInput(description)) {
+    showError(taskDescriptionError, 'La descripción es obligatoria.');
+    taskDescriptionInput.classList.add('error');
+    isValid = false;
+  } else {
+    clearError(taskDescriptionError);
+    taskDescriptionInput.classList.remove('error');
+  }
+
   return isValid;
 }
 
@@ -95,8 +107,10 @@ function resetForm() { //Limpiar formulario
   messageForm.reset();
   clearError(userNameError);
   clearError(userMessageError);
+  clearError(taskDescriptionError);
   userNameInput.classList.remove('error');
   userMessageInput.classList.remove('error');
+  taskDescriptionInput.classList.remove('error');
 }
 
 function getCurrentTimestamp() { 
@@ -149,7 +163,6 @@ function setMode(isEditing) { //Cambia entre nueva tarea y editar tarea
   if (submitBtnText) submitBtnText.textContent = isEditing ? 'Actualizar tarea' : 'Guardar tarea';
 
   if (!isEditing) {
-    // al salir de modo edición, limpiamos el formulario
     resetForm();
   }
 }
@@ -157,8 +170,6 @@ function setMode(isEditing) { //Cambia entre nueva tarea y editar tarea
 // ============================================
 // 4) FETCH CRUD (JSON SERVER)
 // ============================================
-
-//REFRESCAR PÁGINA
 
 async function apiFetch(url, options) { //LLamada a HTTP (error 404, error 500)
   const res = await fetch(url, options);
@@ -172,41 +183,35 @@ async function apiFetch(url, options) { //LLamada a HTTP (error 404, error 500)
 }
 
 async function loadTodos() { //GET... atrae las tareas del server y se ejecuta 
-  // READ - Listar tareas
   const res = await apiFetch(API_BASE_URL, { method: 'GET' });
 
-  // Requisito: verificar en consola la respuesta recibida antes de mostrarla
   const data = await res.json();
   console.log('✅ Respuesta GET /todos:', data);
 
   renderTodos(data);
 }
 
-async function createTodo({ title, userName }) { //POST... Crea tarea con los datos del formulario al refrescar lista
-  // CREATE - Crear tarea
+async function createTodo({ title, userName, description }) { //POST... Crea tarea con los datos del formulario
   await apiFetch(API_BASE_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title, userName })
+    body: JSON.stringify({ title, userName, description })
   });
 
-  // Después de la respuesta del servidor, volver a listar
   await loadTodos();
 }
 
-async function updateTodo(id, { title, userName }) { //PATCH... actualiza los campos editados de una tarea existente
-  // UPDATE - Actualizar tarea (PATCH)
+async function updateTodo(id, { title, userName, description }) { //PATCH... actualiza los campos editados
   await apiFetch(`${API_BASE_URL}/${id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title, userName })
+    body: JSON.stringify({ title, userName, description })
   });
 
   await loadTodos();
 }
 
 async function deleteTodo(id) { //DELETE... Elimina tarea
-  // DELETE - Eliminar tarea
   await apiFetch(`${API_BASE_URL}/${id}`, { method: 'DELETE' });
 
   await loadTodos();
@@ -216,10 +221,8 @@ async function deleteTodo(id) { //DELETE... Elimina tarea
 // 5) DOM: JSON -> HTML
 // ===========================================
 
-//Recibe tareas del servidor y contruye tarjetas HTML.
+//Recibe tareas del servidor y construye tarjetas HTML.
 //Cada tarea crea una tarjeta con el avatar (iniciales), name, descripción y botones (editar, eliminar).
-
-//data.id = guardar ID para identificarla 
 
 function renderTodos(todos) {
   messagesContainer.innerHTML = '';
@@ -242,6 +245,7 @@ function renderTodos(todos) {
 
     const initials = getInitials(todo.userName || 'Usuario');
     const title = todo.title ?? '';
+    const description = todo.description ?? '';
 
     card.innerHTML = `
       <div class="message-card__header">
@@ -251,7 +255,10 @@ function renderTodos(todos) {
         </div>
         <span class="message-card__timestamp">${escapeHtml(getCurrentTimestamp())}</span>
       </div>
-      <div class="message-card__content">${escapeHtml(title)}</div>
+      <div class="message-card__content">
+        <p><strong>Tarea:</strong> ${escapeHtml(title)}</p>
+        <p style="margin-top:8px;"><strong>Descripción:</strong> ${escapeHtml(description)}</p>
+      </div>
 
       <div style="margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap;">
         <button type="button" class="btn btn--primary btn--edit" data-id="${todo.id}">
@@ -274,24 +281,25 @@ function renderTodos(todos) {
 // 6) EVENTOS
 // ===========================================
 
-async function handleFormSubmit(event) { //Valida formulario si se da en guardar tarae
+async function handleFormSubmit(event) { //Valida formulario si se da en guardar tarea
   event.preventDefault();
 
   if (!validateForm()) return;
 
   const title = userMessageInput.value.trim();
   const userName = userNameInput.value.trim();
+  const description = taskDescriptionInput.value.trim();
 
   try {
     if (editingId !== null) {
-      await updateTodo(editingId, { title, userName });
+      await updateTodo(editingId, { title, userName, description });
       editingId = null;
       setMode(false);
       userMessageInput.focus();
       return;
     }
 
-    await createTodo({ title, userName });
+    await createTodo({ title, userName, description });
     resetForm();
     userNameInput.focus();
   } catch (err) {
@@ -310,6 +318,11 @@ function handleInputChange(e) { //Borra mensaje de error en el campo al tener co
     clearError(userMessageError);
     userMessageInput.classList.remove('error');
   }
+
+  if (e.target === taskDescriptionInput && isValidInput(taskDescriptionInput.value)) {
+    clearError(taskDescriptionError);
+    taskDescriptionInput.classList.remove('error');
+  }
 }
 
 async function handleMessagesContainerClick(e) { //Detecta clicks del contenedor de tarjetas (eliminar o editar)
@@ -322,8 +335,7 @@ async function handleMessagesContainerClick(e) { //Detecta clicks del contenedor
   const id = idStr;
 
   if (btn.classList.contains('btn--delete')) {
-    // ¿Por qué es importante el id?
-    // Respuesta: porque DELETE necesita identificar exactamente el recurso a borrar.
+    // Porque DELETE necesita identificar exactamente el recurso a borrar.
     try {
       await deleteTodo(id);
       editingId = null;
@@ -344,6 +356,7 @@ async function handleMessagesContainerClick(e) { //Detecta clicks del contenedor
 
     userNameInput.value = todo.userName || '';
     userMessageInput.value = todo.title || '';
+    taskDescriptionInput.value = todo.description || '';
 
     if (formTitle) formTitle.textContent = 'Editar tarea';
     if (submitBtnText) submitBtnText.textContent = 'Actualizar tarea';
@@ -356,18 +369,19 @@ async function handleMessagesContainerClick(e) { //Detecta clicks del contenedor
 // 7) INICIALIZACIÓN
 // ===========================================
 
-//AL estar lista la página, los events (formulario, campos, tarjetas) llaman al load para
+//Al estar lista la página, los events (formulario, campos, tarjetas) llaman al load para
 // cargar la lista inicial desde el server
 
 document.addEventListener('DOMContentLoaded', function () {
   console.log('✅ DOM completamente cargado');
   console.log('🧾 CRUD de tareas con JSON Server iniciado');
 
-  printEnunciadoAnswers();
+  // printEnunciadoAnswers(); <-- ELIMINADO: función no definida
 
   messageForm.addEventListener('submit', handleFormSubmit);
   userNameInput.addEventListener('input', handleInputChange);
   userMessageInput.addEventListener('input', handleInputChange);
+  taskDescriptionInput.addEventListener('input', handleInputChange);
 
   messagesContainer.addEventListener('click', handleMessagesContainerClick);
 
@@ -385,29 +399,28 @@ document.addEventListener('DOMContentLoaded', function () {
 /**
 ¿Qué método HTTP usarían para:
 
-• Crear una tarea
+- Crear una tarea
 - Método POST: el POST envía datos nuevos al servidor.
 
-• Listar tareas
+- Listar tareas
 - Método GET: el GET solicita información sin modificación
 
-• Actualizar una tarea
+- Actualizar una tarea
 - método PUT: el PUT reemplaza toda la info de una tarea.
 - método PATCH: el PATCH cambia un campo específico 
 
-• Eliminar una tarea
+- Eliminar una tarea
 - método DELETE: borra una tarea identificada por su id 
 
-2. ¿Qué información necesitarían enviar al servidor para actualizar o eliminar una
-tarea?
-- El ID de la tarea para poder saber qué es lo que se desea modificar o eliminar. Sin ID no se podría saber que es lo que quiero hacer o a qué
-se lo quiero hacer.
+2. ¿Qué información necesitarían enviar al servidor para actualizar o eliminar una tarea?
+- El ID de la tarea para poder saber qué es lo que se desea modificar o eliminar. Sin ID no se podría 
+saber que es lo que quiero hacer o a qué se lo quiero hacer.
 
 3. ¿En qué momento debe actualizarse el DOM?
-- El DOM debe actualizarse cuando el servidor confima que la operación ha sido realizada correctamente. Si esta acción se realiza antes dé y la 
-operación erra en algo, se va a mostrar información incorrecta. 
-Se deberia enviar la petición al servidor, verificar que todo esté bien y ahí si actualizar todo para que la interfaz siempre refleje lo que está 
-guardado debidamente
+- El DOM debe actualizarse cuando el servidor confirma que la operación ha sido realizada correctamente. 
+Si esta acción se realiza antes y la operación falla en algo, se va a mostrar información incorrecta. 
+Se debería enviar la petición al servidor, verificar que todo esté bien y ahí sí actualizar todo para 
+que la interfaz siempre refleje lo que está guardado debidamente.
  */
 
 // ===========================================
@@ -416,19 +429,15 @@ guardado debidamente
 
 /* 
 ¿En qué momento se transforman JSON en elementos HTML?
-
 - Cuando renderTodos(todos) recibe el JSON y crea elementos HTML con innerHTML
 
 ¿Qué ocurre primero: se actualiza el DOM o se envía la solicitud al servidor?
-
 - Primero se envía la solicitud POST al servidor. Después se recarga con GET y ahí se actualiza el DOM.
 
-¿Por qué es importante el id en esta operación?'
-
+¿Por qué es importante el id en esta operación?
 - Porque el servidor necesita saber qué recurso exacto eliminar (ruta /:id)
 
 ¿Diferencia entre modificar el DOM y modificar en el servidor?
-
 - DOM: solo cambia la vista en el navegador
 - Servidor: persiste el cambio (se ve al volver a consultar o para otros usuarios).
 */

@@ -14,7 +14,7 @@
  * ============================================
  */
 
-const API_BASE_URL = 'http://192.168.128.13:3007/todos';
+const API_BASE_URL = 'http://192.168.137.1:3007/todos';
 
 /*CRUD-APROPIACIÓN/TRANSFERENCIA:
 Implementado actaulemente:

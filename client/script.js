@@ -16,6 +16,22 @@
 
 const API_BASE_URL = 'http://192.168.128.13:3007/todos';
 
+/*CRUD-APROPIACIÓN/TRANSFERENCIA:
+Implementado actaulemente:
+- READ: carga dinámica sin recargar página, construido con DOM
+- CREATE - POST: validación de campos, error messages
+- UPDATE - PATCH: botón editar, sin recargar página
+- DELETE: botón eliminar, sin recargar página
+- Uso Vanilla JS
+- Validación de campos con mensajes 
+*/
+
+/* Faltante:
+- mensaje de éxito cuando la tarea se crea correctamente
+- mensaje de éxito o error después de actualizar
+- confirmación 
+*/
+
 // ===========================================
 // 1) SELECCIÓN DE ELEMENTOS DOM.
 // ===========================================

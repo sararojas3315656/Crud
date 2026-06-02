@@ -35,19 +35,25 @@
                     </div>
 
                     <div class="form__group">
-                        <label for="taskDescription" class="form__label">
-                        Descripción de la tarea
+                        <label for="userMessage" class="form__label">
+                            Nombre de la tarea
                         </label>
-
-                        <textarea
-                            id="taskDescription"
-                            class="form__input form__textarea"
-                            placeholder="Describe la tarea..."
-                            rows="3"
+                        <textarea 
+                            id="userMessage" 
+                            class="form__input form__textarea" 
+                            placeholder="Escribe el nombre de la tarea aquí..."
+                            rows="4"
                             aria-required="true"
-                    ></textarea>
-                    <span class="form__error" id="taskDescriptionError"></span>
+                        ></textarea>
+                        <span class="form__error" id="userMessageError"></span>
                     </div>
+
+                    <button type="submit" class="btn btn--primary" id="submitBtn">
+                        <span class="btn__text" id="submitBtnText">Guardar tarea</span>
+                        <span class="btn__icon">➤</span>
+                    </button>
+                </form>
+            </div>
         </section>
 
         <!-- Área de mensajes -->

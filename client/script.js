@@ -235,6 +235,31 @@ async function deleteTodo(id) { //DELETE... Elimina tarea
 }
 
 // ===========================================
+// 4.2) TRANSFERENCIA - TOAST
+// ===========================================
+
+function showToast(message, type = 'success') {
+
+  // Eliminar toast anterior si existe
+  const existing = document.getElementById('toast');
+  if (existing) existing.remove();
+
+  const toast = document.createElement('div');
+  toast.id = 'toast';
+  toast.className = `toast toast--${type}`; // clases definidas en CSS
+  toast.textContent = message;
+
+  document.body.appendChild(toast);
+
+  // Se oculta a los 3 segundos y luego se elimina del DOM
+  setTimeout(() => {
+    toast.classList.add('toast--hidden');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+
+// ===========================================
 // 5) DOM: JSON -> HTML
 // ===========================================
 
